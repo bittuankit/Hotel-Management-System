@@ -15,6 +15,11 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cusEmail: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     cusGender: {
       type: String,
       required: true,

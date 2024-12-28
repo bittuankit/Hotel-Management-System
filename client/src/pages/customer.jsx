@@ -7,11 +7,11 @@ import { addCustomerModal } from "../redux/slice";
 import AllCustomer from "../components/allCustomer";
 
 const AddCustomer = () => {
+  const { toggleTheme } = useSelector((state) => state.service);
   const [customerQuery, setCustomerQuery] = useState("");
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // console.log(searchCus);
   };
 
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ const AddCustomer = () => {
           style={{
             margin: "0 auto",
             maxHeight: "100vh",
+            minWidth: "720px",
             overflow: "hidden",
           }}
         >
@@ -52,20 +53,44 @@ const AddCustomer = () => {
               onClick={handleAddCustomer}
             />
           </Stack>
-          <Stack>
+          <Stack
+            flexDirection={"row"}
+            justifyContent={"flex-start"}
+            alignItems={"center"}
+            minWidth={"100%"}
+          >
             <form
-              style={{ marginBottom: ".2rem" }}
+              style={{
+                marginBottom: ".2rem",
+                display: "flex",
+                minWidth: "100%",
+              }}
               onSubmit={handleSearchSubmit}
             >
               <input
-                style={{
-                  padding: ".5rem 1rem",
-                  width: "85%",
-                  border: "2px solid royalblue",
-                  outline: "0",
-                  borderRadius: ".5rem",
-                  color: "black",
-                }}
+                style={
+                  toggleTheme
+                    ? {
+                        padding: ".5rem 1rem",
+                        width: "100%",
+                        border: "2px solid royalblue",
+                        outline: "0",
+                        borderRadius: ".5rem",
+                        color: "black",
+                        background: "#000",
+                        color: "#fff",
+                      }
+                    : {
+                        padding: ".5rem 1rem",
+                        width: "100%",
+                        border: "2px solid royalblue",
+                        outline: "0",
+                        borderRadius: ".5rem",
+                        color: "black",
+                        background: "#fff",
+                        color: "#000",
+                      }
+                }
                 type="text"
                 name="search-customer"
                 id="search-customer"
@@ -77,9 +102,10 @@ const AddCustomer = () => {
                 style={{
                   padding: ".5rem 1rem",
                   background: "royalblue",
-                  margin: "0 1rem",
+                  marginLeft: ".5rem",
                   cursor: "pointer",
                   borderRadius: ".5rem",
+                  color: "#fff",
                 }}
                 type="submit"
                 value="Search"

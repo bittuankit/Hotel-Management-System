@@ -11,7 +11,6 @@ import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomerModal, handleRoomStatus } from "../redux/slice";
 import { useAddCustomerMutation } from "../redux/service";
-import { hotelRooms } from "../assets/roomData";
 
 const Customer = () => {
   const _700 = useMediaQuery("(width: 700px)");
@@ -21,6 +20,7 @@ const Customer = () => {
   const [cusId, setCusId] = useState("adhar-card");
   const [idNumber, setIdNumber] = useState("");
   const [cusName, setCusName] = useState("");
+  const [cusEmail, setCusEmail] = useState("");
   const [cusGender, setCusGender] = useState("");
   const [cusCountry, setCusCountry] = useState("");
   const [cusRoom, setCusRoom] = useState("");
@@ -42,6 +42,7 @@ const Customer = () => {
       cusId,
       idNumber,
       cusName,
+      cusEmail,
       cusGender,
       cusCountry,
       cusRoom,
@@ -142,6 +143,31 @@ const Customer = () => {
                   placeholder="Enter Full Name"
                   value={cusName}
                   onChange={(e) => setCusName(e.target.value)}
+                  style={{
+                    border: "2px solid royalblue",
+                    outline: "none",
+                    borderRadius: ".5rem",
+                    padding: ".5rem",
+                    fontSize: "1.1rem",
+                    margin: ".5rem 0",
+                    textTransform: "capitalize",
+                  }}
+                />
+              </Stack>
+              <Stack
+                flexDirection={"row"}
+                width={"100%"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <h1>Email:</h1>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Enter Your Email"
+                  value={cusEmail}
+                  onChange={(e) => setCusEmail(e.target.value)}
                   style={{
                     border: "2px solid royalblue",
                     outline: "none",

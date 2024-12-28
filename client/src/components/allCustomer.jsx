@@ -9,7 +9,11 @@ const AllCustomer = ({ query }) => {
   const { isLoading } = useAllCustomerQuery();
 
   const filteredCustomer = useMemo(() => {
-    return allCustomer.filter((customer) => customer.cusName.includes(query));
+    return allCustomer.filter(
+      (customer) =>
+        customer.cusName.toLowerCase().includes(query) ||
+        customer.cusEmail.toLowerCase().includes(query)
+    );
   }, [query]);
 
   return (
@@ -60,6 +64,9 @@ const AllCustomer = ({ query }) => {
                       Name: {e.cusName}
                     </Typography>
                     <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                      Email: {e.cusEmail}
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: "600" }}>
                       Room No: {e.cusRoom}
                     </Typography>
                     <Typography
@@ -81,9 +88,9 @@ const AllCustomer = ({ query }) => {
                 </Stack>
               ))
             ) : (
-              <Typography variant="caption" textAlign={"center"}>
-                No Customer Yet.
-              </Typography>
+              <Stack textAlign={"center"} margin={"1rem 0"}>
+                <h3>No Customers Yet.</h3>
+              </Stack>
             )
           ) : isLoading ? (
             <Loading />

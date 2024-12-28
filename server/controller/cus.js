@@ -6,6 +6,7 @@ export const addCus = async (req, res) => {
       cusId,
       idNumber,
       cusName,
+      cusEmail,
       cusGender,
       cusCountry,
       cusRoom,
@@ -17,6 +18,7 @@ export const addCus = async (req, res) => {
       cusId,
       idNumber,
       cusName,
+      cusEmail,
       cusGender,
       cusCountry,
       cusRoom,
@@ -44,7 +46,7 @@ export const searchCus = async (req, res) => {
     const customer = await Customer.find({
       $or: [
         { cusName: { $regex: query, $options: "i" } },
-        { cusEmail: { $regex: query, $options: "i" } }, // Didn't made
+        { cusEmail: { $regex: query, $options: "i" } },
       ],
     });
 
