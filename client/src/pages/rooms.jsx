@@ -13,18 +13,6 @@ const Rooms = () => {
   const dispatch = useDispatch();
   const { allCustomer } = useSelector((state) => state.service);
 
-  // useEffect(() => {
-  //   allCustomer.map((customer) => customerRoom.push(Number(customer.cusRoom)));
-  //   hotelRooms.map((floor) => {
-  //     floor.rooms.map((room) => {
-  //       if (customerRoom.includes(room.roomNo)) {
-  //         room.status = !room.roomNo;
-  //       }
-  //     });
-  //   });
-  // }, []);
-
-  //chat gpt
   const bookedRooms = useMemo(() => {
     const occupiedRooms = new Set(
       allCustomer.map((customer) => Number(customer.cusRoom))
@@ -37,7 +25,7 @@ const Rooms = () => {
         status: !occupiedRooms.has(room.roomNo),
       })),
     }));
-  }, []);
+  }, [dispatch]);
 
   const handleBooking = () => {
     dispatch(addCustomerModal(true));

@@ -8,7 +8,7 @@ export const serviceApi = createApi({
     credentials: "include",
   }),
   keepUnusedDataFor: 60 * 60 * 15,
-  tagTypes: ["POST", "GET"],
+  tagTypes: ["customer", "employee"],
   endpoints: (builder) => ({
     addCustomer: builder.mutation({
       query: (data) => ({
@@ -16,6 +16,7 @@ export const serviceApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["customer"],
     }),
     checkEmp: builder.mutation({
       query: (data) => ({
@@ -55,12 +56,6 @@ export const serviceApi = createApi({
           console.log(error);
         }
       },
-    }),
-    searchCustomer: builder.query({
-      query: (query) => ({
-        url: `/customer/search/${query}`,
-        method: "GET",
-      }),
     }),
   }),
 });
