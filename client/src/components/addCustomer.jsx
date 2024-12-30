@@ -36,11 +36,15 @@ const Customer = () => {
     dispatch(addCustomerModal(false));
   };
 
+  const male = `https://avatar.iran.liara.run/public/boy?username=${cusName}`;
+  const female = `https://avatar.iran.liara.run/public/girl?username=${cusName}`;
+
   const handleAdd = async (e) => {
     e.preventDefault();
     const data = {
       cusId,
       idNumber,
+      cusProfile: cusGender === "male" ? male : female,
       cusName,
       cusEmail,
       cusGender,

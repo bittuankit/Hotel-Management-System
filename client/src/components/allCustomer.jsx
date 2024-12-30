@@ -52,7 +52,7 @@ const AllCustomer = ({ query }) => {
                         height: "200px",
                       }}
                       alt={e.cusName}
-                      src="/static/images/avatar/1.jpg"
+                      src={e.cusProfile}
                     />
                   </div>
                   <Stack

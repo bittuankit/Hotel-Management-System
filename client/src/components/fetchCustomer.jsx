@@ -41,7 +41,7 @@ const FetchCustomer = () => {
                   gap: ".5rem",
                 }}
               >
-                <Avatar alt={e.cusName} src="/static/images/avatar/1.jpg" />
+                <Avatar alt={e.cusName} src={e.cusProfile} />
                 <Typography variant="h6" sx={{ fontWeight: "600" }}>
                   {e.cusName}
                 </Typography>

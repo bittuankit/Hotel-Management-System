@@ -11,6 +11,10 @@ const customerSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
+    cusProfile: {
+      type: String,
+      required: true,
+    },
     cusName: {
       type: String,
       required: true,

@@ -5,6 +5,7 @@ export const addCus = async (req, res) => {
     const {
       cusId,
       idNumber,
+      cusProfile,
       cusName,
       cusEmail,
       cusGender,
@@ -17,6 +18,7 @@ export const addCus = async (req, res) => {
     const cus = await Customer.create({
       cusId,
       idNumber,
+      cusProfile,
       cusName,
       cusEmail,
       cusGender,
