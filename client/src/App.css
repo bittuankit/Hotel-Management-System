@@ -26,3 +26,24 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   background: "white";
 }
+
+.circle {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  z-index: 34;
+  flex: none;
+}
+
+.circle::before {
+  content: "";
+  position: absolute;
+  width: 4rem;
+  z-index: 34;
+  height: 4rem;
+  background: #fff;
+  border-radius: 100%;
+}
