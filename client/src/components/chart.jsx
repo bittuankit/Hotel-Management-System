@@ -7,8 +7,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 
 ChartJS.register(
@@ -17,15 +18,23 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
-
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-const transition_data = [12, 36, 12, 58, 10, 5, 11];
-const revenue_data = [6, 19, 7, 28, 9, 2, 7];
 
 export const BarChart = () => {
   const { toggleTheme } = useSelector((state) => state.service);
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+  const transition_data = [12, 36, 12, 58, 10, 5, 11];
+  const revenue_data = [6, 19, 7, 28, 9, 2, 7];
   const options = {
     responsive: true,
     plugins: {
@@ -75,4 +84,31 @@ export const BarChart = () => {
   };
 
   return <Bar options={options} data={data} />;
+};
+
+export const DoughnutChart = ({ labels, data, backgroundColor, cutout }) => {
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          padding: 40,
+        },
+      },
+    },
+    cutout,
+  };
+  const doughnutData = {
+    labels,
+    datasets: [
+      {
+        data,
+        backgroundColor,
+        borderWidth: 0,
+      },
+    ],
+  };
+  return <Doughnut options={doughnutOptions} data={doughnutData} />;
 };

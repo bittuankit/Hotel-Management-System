@@ -5,7 +5,8 @@ import { BsSearch } from "react-icons/bs";
 import { FaRegBell } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
-import { BarChart } from "../components/chart";
+import { BarChart, DoughnutChart } from "../components/chart";
+import { BiMaleFemale } from "react-icons/bi";
 
 const Dashboard = () => {
   const { toggleTheme } = useSelector((state) => state.service);
@@ -23,7 +24,14 @@ const Dashboard = () => {
         <aside>
           <Sidebar />
         </aside>
-        <main style={{ overflowY: "auto", width: "80%" }}>
+        <main
+          style={{
+            width: "80%",
+            maxHeight: "100vh",
+            overflowY: "auto",
+            scrollbarWidth: "none",
+          }}
+        >
           <Stack
             flexDirection={"row"}
             alignItems={"center"}
@@ -419,6 +427,51 @@ const Dashboard = () => {
               </h1>
               <BarChart />
             </div>
+          </Stack>
+          <Stack
+            className="gender-chart"
+            width={"80%"}
+            m={"1rem auto"}
+            flexDirection={"row"}
+            gap={"2rem"}
+            p={"0 2rem 2rem 0"}
+          >
+            <div
+              className="chart"
+              style={{
+                maxWidth: "40%",
+                padding: "1rem",
+                position: "relative",
+              }}
+            >
+              <h2
+                style={{
+                  textAlign: "center",
+                  margin: "2rem 0",
+                }}
+              >
+                Gender Ration
+              </h2>
+              <DoughnutChart
+                labels={["Male", "Female"]}
+                data={[23, 11]}
+                backgroundColor={["hsl(340,82%,56%)", "rgba(53,162,235,0.8)"]}
+                cutout={90}
+              />
+              <p
+                style={{
+                  position: "absolute",
+                  top: "53%",
+                  left: "50%",
+                  transform: "translate(-50%,-50%",
+                  fontSize: "2.5rem",
+                  color: "#000b",
+                }}
+              >
+                <BiMaleFemale />
+              </p>
+            </div>
+            <div className="table"></div>
           </Stack>
         </main>
       </Stack>
