@@ -36,8 +36,8 @@ const Dashboard = () => {
             flexDirection={"row"}
             alignItems={"center"}
             justifyContent={"space-between"}
-            width={"80%"}
-            margin={"1rem auto"}
+            width={"95%"}
+            margin={"2rem"}
             paddingBottom={".8rem"}
             borderBottom={"2px solid royalblue"}
           >
@@ -85,8 +85,8 @@ const Dashboard = () => {
             alignItems={"center"}
             justifyContent={"space-between"}
             gap={"1rem"}
-            margin={"auto"}
-            width={"80%"}
+            width={"90%"}
+            margin={"1rem auto"}
           >
             {/* Revenue  */}
             <div
@@ -413,8 +413,13 @@ const Dashboard = () => {
               </div>
             </div>
           </Stack>
-          <Stack className="chart" width={"80%"} m={"1rem auto"}>
-            <div className="line-chart">
+          <Stack
+            className="chart"
+            width={"95%"}
+            margin={"2rem"}
+            flexDirection={"row"}
+          >
+            <div className="line-chart" style={{ width: "70%" }}>
               <h1
                 style={{
                   textAlign: "center",
@@ -427,20 +432,10 @@ const Dashboard = () => {
               </h1>
               <BarChart />
             </div>
-          </Stack>
-          <Stack
-            className="gender-chart"
-            width={"80%"}
-            m={"1rem auto"}
-            flexDirection={"row"}
-            gap={"2rem"}
-            p={"0 2rem 2rem 0"}
-          >
             <div
-              className="chart"
+              className="gender"
               style={{
-                maxWidth: "40%",
-                padding: "1rem",
+                width: "30%",
                 position: "relative",
               }}
             >
@@ -448,6 +443,7 @@ const Dashboard = () => {
                 style={{
                   textAlign: "center",
                   margin: "2rem 0",
+                  fontSize: "1.5rem",
                 }}
               >
                 Gender Ration
@@ -456,7 +452,7 @@ const Dashboard = () => {
                 labels={["Male", "Female"]}
                 data={[23, 11]}
                 backgroundColor={["hsl(340,82%,56%)", "rgba(53,162,235,0.8)"]}
-                cutout={90}
+                cutout={120}
               />
               <p
                 style={{
@@ -471,7 +467,6 @@ const Dashboard = () => {
                 <BiMaleFemale />
               </p>
             </div>
-            <div className="table"></div>
           </Stack>
         </main>
       </Stack>

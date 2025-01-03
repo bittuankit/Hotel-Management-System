@@ -67,7 +67,9 @@ export const BarChart = () => {
       {
         label: "Transition",
         data: transition_data,
-        backgroundColor: toggleTheme ? "#E82561" : "rgba(53, 162, 235, 0.5)",
+        backgroundColor: toggleTheme
+          ? "hsl(340,82%,56%)"
+          : "rgba(53,162,235,0.8)",
         barThickness: "flex",
         barPercentage: 1,
         categoryPercentage: 0.4,
@@ -75,7 +77,9 @@ export const BarChart = () => {
       {
         label: "Revenue",
         data: revenue_data,
-        backgroundColor: toggleTheme ? "rgba(53, 162, 235, 0.5)" : "#E82561",
+        backgroundColor: toggleTheme
+          ? "rgba(53,162,235,0.8)"
+          : "hsl(340,82%,56%)",
         barThickness: "flex",
         barPercentage: 1,
         categoryPercentage: 0.4,
