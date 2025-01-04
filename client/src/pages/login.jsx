@@ -9,39 +9,43 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useCheckEmpMutation } from "../redux/service";
-import { handleIsEmp } from "../redux/slice";
 import { useDispatch } from "react-redux";
+import { handleIsUser } from "../redux/slice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const [empLogin, { isSuccess, data }] = useCheckEmpMutation();
+  const [empLogin] = useCheckEmpMutation();
 
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = {
-      username,
-      password,
-      role,
-    };
+    try {
+      e.preventDefault();
+      const data = {
+        username,
+        password,
+        role,
+      };
 
-    setUsername("");
-    setPassword("");
-    setRole("");
+      setUsername("");
+      setPassword("");
+      setRole("");
 
-    await empLogin(data);
-    dispatch(handleIsEmp(true));
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
+      const res = await empLogin(data);
+      if (res.data.success) {
+        dispatch(handleIsUser(data));
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, [isSuccess]);
+  };
 
   return (
     <>
@@ -52,7 +56,7 @@ const Login = () => {
         width={"100%"}
         minHeight={"100vh"}
       >
-        <form method="post" action="/dashboard" onSubmit={handleSubmit}>
+        <form method="post" onSubmit={handleSubmit}>
           <Stack
             width={"450px"}
             border={"2px solid #1976d2"}

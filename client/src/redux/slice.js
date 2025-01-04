@@ -6,7 +6,7 @@ export const serviceSlice = createSlice({
     openAddCustomer: false,
     openAddEmployee: false,
     toggleTheme: false,
-    isEmp: false,
+    isUser: null,
     roomStatus: true,
     allCustomer: [],
   },
@@ -20,8 +20,12 @@ export const serviceSlice = createSlice({
     handleToggleTheme: (state) => {
       state.toggleTheme = !state.toggleTheme;
     },
-    handleIsEmp: (state, action) => {
-      state.isEmp = action.payload;
+    handleIsUser: (state, action) => {
+      if (state) {
+        state.isUser = action.payload;
+      } else {
+        state.isUser = null;
+      }
     },
     handleRoomStatus: (state) => {
       state.roomStatus = !state.roomStatus;
@@ -52,7 +56,7 @@ export const {
   addCustomerModal,
   addEmployeeModal,
   handleToggleTheme,
-  handleIsEmp,
+  handleIsUser,
   handleRoomStatus,
   handleAllCustomer,
   handleSearchedCustomer,

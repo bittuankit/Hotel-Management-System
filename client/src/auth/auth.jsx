@@ -3,14 +3,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import Customer from "../components/addCustomer";
 import AddEmployee from "../components/addEmployee";
 
-const Auth = ({ children, emp, redirect = "/" }) => {
-  if (!emp) {
+const Auth = ({ children, user, redirect = "/" }) => {
+  if (!user) {
     return <Navigate to={redirect} />;
   }
 
   return (
     <>
-      {children ? children : <Outlet />}
+      {children ? children : <Outlet />}s
       <Customer />
       <AddEmployee />
     </>

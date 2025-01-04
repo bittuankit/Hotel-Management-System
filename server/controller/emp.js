@@ -1,20 +1,29 @@
 import { Emp } from "../models/emp.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
-    const emp = await Emp.findOne({ username, role }).select("+password");
+    let emp = await Emp.findOne({ username, role }).select("+password");
 
-    if (!emp) return res.json({ success: false, message: "Invalid Employee." });
+    if (!emp)
+      return res.json({ success: false, message: "Invalid input fields." });
 
     const isMatch = await bcrypt.compare(password, emp.password);
 
     if (!isMatch)
       return res.json({ success: false, message: "Invalid Employee." });
 
-    res.json({ success: true, emp });
+    const token = jwt.sign({ _id: emp._id }, process.env.JWT_SECRET);
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .json({ success: true, message: "Successfully login..." });
   } catch (error) {
     console.log(error);
   }

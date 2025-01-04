@@ -34,6 +34,7 @@ const schema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
+      enum: ["admin", "emp"],
     },
     address: {
       type: String,
