@@ -5,16 +5,15 @@ import { useAllCustomerQuery } from "../redux/service";
 import Loading from "../components/loading";
 
 const AllCustomer = ({ query }) => {
-  const { allCustomer } = useSelector((state) => state.service);
-  const { isLoading } = useAllCustomerQuery();
+  const { data, isSuccess } = useAllCustomerQuery();
 
   const filteredCustomer = useMemo(() => {
-    return allCustomer.filter(
+    return data?.customers.filter(
       (customer) =>
         customer.cusName.toLowerCase().includes(query) ||
         customer.cusEmail.toLowerCase().includes(query)
     );
-  }, [query]);
+  }, [query, isSuccess]);
 
   return (
     <div>
@@ -92,9 +91,9 @@ const AllCustomer = ({ query }) => {
                 <h3>No Customers Yet.</h3>
               </Stack>
             )
-          ) : isLoading ? (
+          ) : (
             <Loading />
-          ) : null}
+          )}
         </main>
       </Stack>
     </div>

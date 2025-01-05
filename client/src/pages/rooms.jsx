@@ -4,6 +4,7 @@ import { Stack } from "@mui/material";
 import { hotelRooms } from "../assets/roomData";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomerModal } from "../redux/slice";
+import { useAllCustomerQuery } from "../redux/service";
 
 /*
 NOTE:- Whenever we click on particular button the room number should automatically fill in the allocated room container.
@@ -11,11 +12,11 @@ NOTE:- Whenever we click on particular button the room number should automatical
 
 const Rooms = () => {
   const dispatch = useDispatch();
-  const { allCustomer } = useSelector((state) => state.service);
+  const { data, isSuccess } = useAllCustomerQuery();
 
   const bookedRooms = useMemo(() => {
     const occupiedRooms = new Set(
-      allCustomer.map((customer) => Number(customer.cusRoom))
+      data?.customers.map((customer) => Number(customer.cusRoom))
     );
 
     return hotelRooms.map((floor) => ({
@@ -25,7 +26,7 @@ const Rooms = () => {
         status: !occupiedRooms.has(room.roomNo),
       })),
     }));
-  }, [dispatch]);
+  }, [isSuccess]);
 
   const handleBooking = () => {
     dispatch(addCustomerModal(true));

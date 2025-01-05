@@ -10,7 +10,7 @@ const Auth = ({ children, user, redirect = "/" }) => {
 
   return (
     <>
-      {children ? children : <Outlet />}s
+      {children ? children : <Outlet />}
       <Customer />
       <AddEmployee />
     </>

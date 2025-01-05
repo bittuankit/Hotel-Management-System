@@ -37,25 +37,6 @@ export const serviceApi = createApi({
         url: "customer/getCus",
         method: "GET",
       }),
-      providesTags: (result, error) => {
-        return result
-          ? [
-              ...result.customers.map(({ _id }) => ({
-                type: "Customers",
-                id: _id,
-              })),
-              { type: "Customers", id: "LIST" },
-            ]
-          : [{ type: "Customers", id: "LIST" }];
-      },
-      async onQueryStarted(params, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(handleAllCustomer(data));
-        } catch (error) {
-          console.log(error);
-        }
-      },
     }),
   }),
 });

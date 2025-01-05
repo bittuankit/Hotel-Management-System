@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { Stack, Avatar, Typography, Button } from "@mui/material";
 import { MdDelete } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useAllCustomerQuery } from "../redux/service";
 
 const FetchCustomer = () => {
-  const { allCustomer } = useSelector((state) => state.service);
+  const { data } = useAllCustomerQuery();
 
   const handleDelete = () => {};
 
@@ -20,7 +21,7 @@ const FetchCustomer = () => {
             scrollbarWidth: "none",
           }}
         >
-          {allCustomer.map((e, idx) => (
+          {data?.customers.map((e, idx) => (
             <Stack
               key={idx}
               flexDirection={"row"}
