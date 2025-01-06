@@ -15,7 +15,7 @@ export const addCus = async (req, res) => {
       cusPayAmount,
     } = req.body;
 
-    const cus = await Customer.create({
+    await Customer.create({
       cusId,
       idNumber,
       cusProfile,
@@ -28,13 +28,11 @@ export const addCus = async (req, res) => {
       cusPayAmount,
     });
 
-    res.json({ success: true, message: "Customer added successfully.", cus });
+    res.json({ success: true, message: "Customer added successfully." });
   } catch (error) {
     console.log(error);
   }
 };
-
-// if customer already exist update two parameter 'No. of visit' and 'visitedDate' instead of adding two customer.
 
 export const getCus = async (req, res) => {
   const customers = await Customer.find({});

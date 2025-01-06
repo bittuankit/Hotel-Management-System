@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Stack, Avatar, Typography, Button } from "@mui/material";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
 import { useAllCustomerQuery } from "../redux/service";
 
 const FetchCustomer = () => {

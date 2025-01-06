@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { Stack, Avatar, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
 import { useAllCustomerQuery } from "../redux/service";
 import Loading from "../components/loading";
 
@@ -11,7 +10,8 @@ const AllCustomer = ({ query }) => {
     return data?.customers.filter(
       (customer) =>
         customer.cusName.toLowerCase().includes(query) ||
-        customer.cusEmail.toLowerCase().includes(query)
+        customer.cusEmail.toLowerCase().includes(query) ||
+        customer.cusRoom.includes(query)
     );
   }, [query, isSuccess]);
 

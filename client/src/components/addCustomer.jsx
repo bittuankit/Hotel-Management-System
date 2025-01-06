@@ -11,11 +11,16 @@ import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomerModal, handleRoomStatus } from "../redux/slice";
 import { useAddCustomerMutation } from "../redux/service";
+import toast from "react-hot-toast";
+import { responseToast } from "../utils/features";
+import { useNavigate } from "react-router-dom";
 
 const Customer = () => {
   const _700 = useMediaQuery("(width: 700px)");
   const _500 = useMediaQuery("(width: 500px)");
   const _300 = useMediaQuery("(width: 300px)");
+
+  const navigate = useNavigate();
 
   const [cusId, setCusId] = useState("adhar-card");
   const [idNumber, setIdNumber] = useState("");
@@ -41,6 +46,7 @@ const Customer = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
     const data = {
       cusId,
       idNumber,
@@ -54,8 +60,10 @@ const Customer = () => {
       cusPayAmount,
     };
 
-    await cusData(data);
+    const res = await cusData(data);
+    responseToast(res, navigate, "/customer");
     dispatch(handleRoomStatus(false));
+    dispatch(addCustomerModal(false));
   };
 
   return (
@@ -81,6 +89,7 @@ const Customer = () => {
           <Stack width={"100%"}>
             <form
               method="post"
+              action="/customer"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -116,6 +125,7 @@ const Customer = () => {
               >
                 <h1>Number:</h1>
                 <input
+                  required
                   type="text"
                   name="Number"
                   id="Number"
@@ -141,6 +151,7 @@ const Customer = () => {
               >
                 <h1>Name:</h1>
                 <input
+                  required
                   type="text"
                   name="name"
                   id="name"
@@ -166,6 +177,7 @@ const Customer = () => {
               >
                 <h1>Email:</h1>
                 <input
+                  required
                   type="text"
                   name="email"
                   id="email"
@@ -197,6 +209,7 @@ const Customer = () => {
                   gap={"0.5rem"}
                 >
                   <input
+                    required
                     type="radio"
                     name="gender"
                     id="male"
@@ -222,6 +235,7 @@ const Customer = () => {
               >
                 <h1>Country:</h1>
                 <input
+                  required
                   type="text"
                   name="country"
                   id="country"
@@ -246,6 +260,7 @@ const Customer = () => {
               >
                 <h1>Allocated Room:</h1>
                 <input
+                  required
                   type="text"
                   name="allocated-room"
                   id="allocated-room"
@@ -270,6 +285,7 @@ const Customer = () => {
               >
                 <h1>CheckIn:</h1>
                 <input
+                  required
                   type="datetime-local"
                   name="checkin"
                   id="checkin"
@@ -285,6 +301,7 @@ const Customer = () => {
               >
                 <h1>Deposite:</h1>
                 <input
+                  required
                   type="number"
                   name="deposite"
                   id="deposite"

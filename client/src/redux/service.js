@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { handleAllCustomer } from "./slice";
 
 export const serviceApi = createApi({
   reducerPath: "serviceApi",
@@ -37,6 +36,7 @@ export const serviceApi = createApi({
         url: "customer/getCus",
         method: "GET",
       }),
+      providesTags: ["customer"],
     }),
   }),
 });
