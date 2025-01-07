@@ -428,7 +428,7 @@ const Dashboard = () => {
                   margin: "0 auto",
                 }}
               >
-                Transition and Revenue
+                Transactions and Revenue
               </h1>
               <BarChart />
             </div>

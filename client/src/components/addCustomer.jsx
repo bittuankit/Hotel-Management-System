@@ -89,7 +89,6 @@ const Customer = () => {
           <Stack width={"100%"}>
             <form
               method="post"
-              action="/customer"
               style={{
                 display: "flex",
                 flexDirection: "column",

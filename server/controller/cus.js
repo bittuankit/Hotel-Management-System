@@ -35,7 +35,7 @@ export const addCus = async (req, res) => {
 };
 
 export const getCus = async (req, res) => {
-  const customers = await Customer.find({});
+  const customers = await Customer.find({}).sort({ createdAt: -1 });
 
   res.json({ success: true, customers });
 };
