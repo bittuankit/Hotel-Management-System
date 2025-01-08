@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { useSelector } from "react-redux";
+import { lastSixMonths } from "../utils/features";
 
 ChartJS.register(
   CategoryScale,
@@ -22,40 +23,43 @@ ChartJS.register(
   ArcElement
 );
 
-export const BarChart = () => {
+export const BarChart = ({ customerChart, revenueChart }) => {
   const { toggleTheme } = useSelector((state) => state.service);
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
-  const transition_data = [12, 36, 12, 58, 10, 5, 11];
-  const revenue_data = [6, 19, 7, 28, 9, 2, 7];
+  const { lastSixMonths: labels } = lastSixMonths();
+  const transition_data = customerChart;
+  const revenue_data = revenueChart;
+
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: "top",
-      },
-      title: {
-        display: "none",
+        labels: {
+          color: toggleTheme ? "#fff" : "#000",
+          font: {
+            size: 14,
+          },
+        },
       },
     },
+
     scales: {
       y: {
         beginAtZero: true,
         grid: {
           display: false,
         },
+        ticks: {
+          color: toggleTheme ? "#fff" : "#000",
+        },
       },
       x: {
         beginAtZero: true,
         grid: {
           display: false,
+        },
+        ticks: {
+          color: toggleTheme ? "#fff" : "#000",
         },
       },
     },
@@ -65,7 +69,7 @@ export const BarChart = () => {
     labels,
     datasets: [
       {
-        label: "Transition",
+        label: "Profit",
         data: transition_data,
         backgroundColor: toggleTheme
           ? "hsl(340,82%,56%)"

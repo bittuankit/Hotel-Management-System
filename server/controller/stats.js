@@ -1,4 +1,7 @@
-import { calculatePercentage } from "../utils/features.js";
+import {
+  calculateGrossProfitPercentage,
+  calculatePercentage,
+} from "../utils/features.js";
 import Customer from "../models/customer.js";
 import { Emp } from "../models/emp.js";
 
@@ -61,6 +64,8 @@ export const getDashboardStats = async (req, res) => {
     employeeCount,
     allCustomerAmount,
     lastSixMonthCustomer,
+    femaleCount,
+    allEmployeeAmount,
   ] = await Promise.all([
     thisMonthCustomerPromise,
     thisMonthEmployeePromise,
@@ -70,6 +75,8 @@ export const getDashboardStats = async (req, res) => {
     Emp.countDocuments(),
     Customer.find({}).select("cusPayAmount"),
     lastSixMonthCustomerPromise,
+    Customer.countDocuments({ cusGender: "female" }),
+    Emp.find({}).select("amount"),
   ]);
 
   const thisMonthRevenue = thisMonthCustomer.reduce(
@@ -82,8 +89,19 @@ export const getDashboardStats = async (req, res) => {
     0
   );
 
+  const revenue = allCustomerAmount.reduce(
+    (total, amount) => total + (amount.cusPayAmount || 0),
+    0
+  );
+
+  const expenditure = allEmployeeAmount.reduce(
+    (total, amount) => total + (amount.amount || 0),
+    0
+  );
+
   const percentage = {
     revenue: calculatePercentage(thisMonthRevenue, lastMonthRevenue),
+    expenditure: calculateGrossProfitPercentage(revenue, expenditure),
     customerPercentage: calculatePercentage(
       thisMonthCustomer.length,
       lastMonthCustomer.length
@@ -94,11 +112,6 @@ export const getDashboardStats = async (req, res) => {
     ),
   };
 
-  const revenue = allCustomerAmount.reduce(
-    (total, amount) => total + (amount.cusPayAmount || 0),
-    0
-  );
-
   const customerMonthCount = new Array(6).fill(0);
   const revenueMonthCount = new Array(6).fill(0);
 
@@ -107,18 +120,25 @@ export const getDashboardStats = async (req, res) => {
     const monthDiff = today.getMonth() - checkInDate.getMonth();
 
     if (monthDiff < 6) {
-      customerMonthCount[6 - monthDiff - 1];
+      customerMonthCount[6 - monthDiff - 1] += 1;
       revenueMonthCount[6 - monthDiff - 1] += customer.cusPayAmount;
     }
   });
+
+  const customerRatio = {
+    male: customerCount - femaleCount,
+    female: femaleCount,
+  };
 
   stats = {
     percentage,
     revenue,
     customerCount,
+    expenditure: expenditure > revenue ? -1 * expenditure : expenditure,
     employeeCount,
     transactions: allCustomerAmount.length,
-    charts: { customer: customerMonthCount, revenue: revenueMonthCount },
+    charts: { customers: customerMonthCount, revenue: revenueMonthCount },
+    customerRatio,
   };
 
   return res.json({
@@ -126,5 +146,3 @@ export const getDashboardStats = async (req, res) => {
     stats,
   });
 };
-export const getBarChart = () => {};
-export const getPieChart = () => {};

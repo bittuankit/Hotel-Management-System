@@ -1,22 +1,19 @@
 import React from "react";
 import Sidebar from "../components/sidebar";
 import { Stack } from "@mui/material";
-import { BsSearch } from "react-icons/bs";
-import { FaRegBell } from "react-icons/fa6";
-import { useSelector } from "react-redux";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 import { BarChart, DoughnutChart } from "../components/chart";
 import { BiMaleFemale } from "react-icons/bi";
+import { useDashboardApiQuery } from "../redux/service";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const { toggleTheme } = useSelector((state) => state.service);
 
-  //temp data
-  const revenue = "Revenue";
-  const amount = 23;
-  const value = 45;
-  const percent = 36;
-  const color = "orange";
+  const { data } = useDashboardApiQuery();
+  const stats = data?.stats;
+
+  const color = "#eb3370";
 
   return (
     <div>
@@ -50,33 +47,9 @@ const Dashboard = () => {
                 width: "100%",
               }}
             >
-              <BsSearch />
-              <input
-                style={
-                  toggleTheme
-                    ? {
-                        background: "#000",
-                        color: "#fff",
-                        border: "0",
-                        outline: "none",
-                        width: "80%",
-                      }
-                    : {
-                        background: "#fff",
-                        color: "#000",
-                        border: "0",
-                        outline: "none",
-                        width: "80%",
-                      }
-                }
-                type="text"
-                name="search"
-                id="search"
-                placeholder="Search customer or employee"
-              />
-            </div>
-            <div className="bell">
-              <FaRegBell />
+              <h1 style={{ fontSize: "1.5rem", fontWeight: 600 }}>
+                Admin Dashboard
+              </h1>
             </div>
           </Stack>
           <Stack
@@ -110,9 +83,9 @@ const Dashboard = () => {
                 }}
               >
                 <div className="info-items">
-                  <p>{revenue}</p>
-                  <h4>{amount ? `₹ ${value}` : value}</h4>
-                  {percent > 0 ? (
+                  <p>Revenue</p>
+                  <h4>{stats?.revenue ? `₹ ${stats?.revenue}` : 0}</h4>
+                  {stats?.percentage.revenue > 0 ? (
                     <span style={{ color: "orange" }}>
                       <div
                         style={{
@@ -121,11 +94,17 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingUp /> +{percent}%{" "}
+                        <HiTrendingUp /> +
+                        {`${
+                          stats?.percentage.revenue > 1000
+                            ? 999
+                            : stats?.percentage.revenue
+                        }`}
+                        %{" "}
                       </div>
                     </span>
                   ) : (
-                    <span style={{ color: "green" }}>
+                    <span style={{ color: "orange" }}>
                       <div
                         style={{
                           display: "flex",
@@ -133,7 +112,13 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingDown /> +{percent}%{" "}
+                        <HiTrendingDown /> -
+                        {`${
+                          stats?.percentage.revenue < -1000
+                            ? -999
+                            : stats?.percentage.revenue
+                        }`}
+                        %{" "}
                       </div>
                     </span>
                   )}
@@ -144,7 +129,7 @@ const Dashboard = () => {
                 style={{
                   width: "50%",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   flex: "none",
                 }}
@@ -153,7 +138,7 @@ const Dashboard = () => {
                   className="circle"
                   style={{
                     background: `conic-gradient(${color} ${Math.abs(
-                      percent
+                      stats?.percentage.revenue
                     )}%, #fff7 ${0}%)`,
                   }}
                 >
@@ -164,14 +149,26 @@ const Dashboard = () => {
                       color: `${color}`,
                     }}
                   >
-                    {percent}%
+                    {stats?.percentage.revenue > 0 &&
+                      `${
+                        stats?.percentage.revenue > 1000
+                          ? 999
+                          : stats?.percentage.revenue
+                      }`}
+                    {stats?.percentage.revenue < 0 &&
+                      `${
+                        stats?.percentage.revenue < -1000
+                          ? -999
+                          : stats?.percentage.revenue
+                      }`}
+                    %
                   </span>
                 </div>
               </div>
             </div>
             {/* Customer  */}
             <div
-              className="revenue"
+              className="customer"
               style={{
                 background: "royalblue",
                 width: "25%",
@@ -182,7 +179,7 @@ const Dashboard = () => {
               }}
             >
               <div
-                className="revenue-info"
+                className="customer-info"
                 style={{
                   width: "50%",
                   display: "flex",
@@ -191,9 +188,9 @@ const Dashboard = () => {
                 }}
               >
                 <div className="info-items">
-                  <p>{"Customer"}</p>
-                  <h4>{amount ? `₹ ${value}` : value}</h4>
-                  {percent > 0 ? (
+                  <p>Customer</p>
+                  <h4>{stats?.customerCount}</h4>
+                  {stats?.percentage.customerPercentage > 0 ? (
                     <span style={{ color: "orange" }}>
                       <div
                         style={{
@@ -202,11 +199,15 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingUp /> +{percent}%{" "}
+                        <HiTrendingUp /> +
+                        {stats?.percentage.customerPercentage > 1000
+                          ? 999
+                          : stats?.percentage.customerPercentage}
+                        %{" "}
                       </div>
                     </span>
                   ) : (
-                    <span style={{ color: "green" }}>
+                    <span style={{ color: "orange" }}>
                       <div
                         style={{
                           display: "flex",
@@ -214,18 +215,22 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingDown /> +{percent}%{" "}
+                        <HiTrendingDown /> +
+                        {stats?.percentage.customerPercentage < -1000
+                          ? -999
+                          : stats?.percentage.customerPercentage}
+                        %{" "}
                       </div>
                     </span>
                   )}
                 </div>
               </div>
               <div
-                className="revenue-circle"
+                className="customer-circle"
                 style={{
                   width: "50%",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   flex: "none",
                 }}
@@ -234,7 +239,7 @@ const Dashboard = () => {
                   className="circle"
                   style={{
                     background: `conic-gradient(${color} ${Math.abs(
-                      percent
+                      stats?.percentage.customerPercentage
                     )}%, #fff7 ${0}%)`,
                   }}
                 >
@@ -245,14 +250,26 @@ const Dashboard = () => {
                       color: `${color}`,
                     }}
                   >
-                    {percent}%
+                    {stats?.percentage.customerPercentage > 0 &&
+                      `${
+                        stats?.percentage.customerPercentage > 1000
+                          ? 999
+                          : stats?.percentage.customerPercentage
+                      }`}
+                    {stats?.percentage.customerPercentage < 0 &&
+                      `${
+                        stats?.percentage.customerPercentage < -1000
+                          ? -999
+                          : stats?.percentage.customerPercentage
+                      }`}
+                    %
                   </span>
                 </div>
               </div>
             </div>
-            {/* Transcation  */}
+            {/* Gross Profit */}
             <div
-              className="revenue"
+              className="gross-profit"
               style={{
                 background: "royalblue",
                 width: "25%",
@@ -263,7 +280,7 @@ const Dashboard = () => {
               }}
             >
               <div
-                className="revenue-info"
+                className="profit-info"
                 style={{
                   width: "50%",
                   display: "flex",
@@ -272,9 +289,9 @@ const Dashboard = () => {
                 }}
               >
                 <div className="info-items">
-                  <p>{"Transcation"}</p>
-                  <h4>{amount ? `₹ ${value}` : value}</h4>
-                  {percent > 0 ? (
+                  <p>Profit</p>
+                  <h4>{`₹ ${stats?.expenditure}`}</h4>
+                  {stats?.percentage.expenditure > 0 ? (
                     <span style={{ color: "orange" }}>
                       <div
                         style={{
@@ -283,11 +300,19 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingUp /> +{percent}%{" "}
+                        <HiTrendingUp /> +
+                        {stats?.percentage.expenditure > 1000
+                          ? 999
+                          : stats?.percentage.expenditure}
+                        %{" "}
                       </div>
                     </span>
                   ) : (
-                    <span style={{ color: "green" }}>
+                    <span
+                      style={{
+                        color: "orange",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
@@ -295,18 +320,22 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingDown /> +{percent}%{" "}
+                        <HiTrendingDown />{" "}
+                        {stats?.percentage.expenditure > -1000
+                          ? -999
+                          : stats?.percentage.expenditure}
+                        %{" "}
                       </div>
                     </span>
                   )}
                 </div>
               </div>
               <div
-                className="revenue-circle"
+                className="profit-circle"
                 style={{
                   width: "50%",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   flex: "none",
                 }}
@@ -315,7 +344,7 @@ const Dashboard = () => {
                   className="circle"
                   style={{
                     background: `conic-gradient(${color} ${Math.abs(
-                      percent
+                      stats?.percentage.expenditure
                     )}%, #fff7 ${0}%)`,
                   }}
                 >
@@ -326,14 +355,26 @@ const Dashboard = () => {
                       color: `${color}`,
                     }}
                   >
-                    {percent}%
+                    {stats?.percentage.expenditure > 0 &&
+                      `${
+                        stats?.percentage.expenditure > 1000
+                          ? 999
+                          : stats?.percentage.expenditure
+                      }`}
+                    {stats?.percentage.expenditure < 0 &&
+                      `${
+                        stats?.percentage.expenditure < -1000
+                          ? -999
+                          : stats?.percentage.expenditure
+                      }`}
+                    %
                   </span>
                 </div>
               </div>
             </div>
             {/* Employee  */}
             <div
-              className="revenue"
+              className="employee"
               style={{
                 background: "royalblue",
                 width: "25%",
@@ -344,7 +385,7 @@ const Dashboard = () => {
               }}
             >
               <div
-                className="revenue-info"
+                className="employee-info"
                 style={{
                   width: "50%",
                   display: "flex",
@@ -353,9 +394,9 @@ const Dashboard = () => {
                 }}
               >
                 <div className="info-items">
-                  <p>{"Employee"}</p>
-                  <h4>{amount ? `₹ ${value}` : value}</h4>
-                  {percent > 0 ? (
+                  <p>Employee</p>
+                  <h4>{stats?.employeeCount}</h4>
+                  {stats?.percentage.employeePercentage > 0 ? (
                     <span style={{ color: "orange" }}>
                       <div
                         style={{
@@ -364,11 +405,15 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingUp /> +{percent}%{" "}
+                        <HiTrendingUp /> +
+                        {stats?.percentage.employeePercentage > 1000
+                          ? 999
+                          : stats?.percentage.employeePercentage}
+                        %{" "}
                       </div>
                     </span>
                   ) : (
-                    <span style={{ color: "green" }}>
+                    <span style={{ color: "orange" }}>
                       <div
                         style={{
                           display: "flex",
@@ -376,18 +421,22 @@ const Dashboard = () => {
                           justifyContent: "flex-start",
                         }}
                       >
-                        <HiTrendingDown /> +{percent}%{" "}
+                        <HiTrendingDown /> +
+                        {stats?.percentage.customerPercentage > -1000
+                          ? -999
+                          : stats?.percentage.customerPercentage}
+                        %{" "}
                       </div>
                     </span>
                   )}
                 </div>
               </div>
               <div
-                className="revenue-circle"
+                className="employee-circle"
                 style={{
                   width: "50%",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   flex: "none",
                 }}
@@ -396,7 +445,7 @@ const Dashboard = () => {
                   className="circle"
                   style={{
                     background: `conic-gradient(${color} ${Math.abs(
-                      percent
+                      stats?.percentage.employeePercentage
                     )}%, #fff7 ${0}%)`,
                   }}
                 >
@@ -407,7 +456,19 @@ const Dashboard = () => {
                       color: `${color}`,
                     }}
                   >
-                    {percent}%
+                    {stats?.percentage.employeePercentage > 0 &&
+                      `${
+                        stats?.percentage.employeePercentage > 1000
+                          ? 999
+                          : stats?.percentage.employeePercentage
+                      }`}
+                    {stats?.percentage.employeePercentage < 0 &&
+                      `${
+                        stats?.percentage.employeePercentage < -1000
+                          ? -999
+                          : stats?.percentage.employeePercentage
+                      }`}
+                    %
                   </span>
                 </div>
               </div>
@@ -428,9 +489,12 @@ const Dashboard = () => {
                   margin: "0 auto",
                 }}
               >
-                Transactions and Revenue
+                Profit and Revenue
               </h1>
-              <BarChart />
+              <BarChart
+                customerChart={stats?.charts.customers}
+                revenueChart={stats?.charts.revenue}
+              />
             </div>
             <div
               className="gender"
@@ -446,13 +510,13 @@ const Dashboard = () => {
                   fontSize: "1.5rem",
                 }}
               >
-                Gender Ration
+                Gender Ratio
               </h2>
               <DoughnutChart
                 labels={["Male", "Female"]}
-                data={[23, 11]}
+                data={[stats?.customerRatio.male, stats?.customerRatio.female]}
                 backgroundColor={["hsl(340,82%,56%)", "rgba(53,162,235,0.8)"]}
-                cutout={120}
+                cutout={115}
               />
               <p
                 style={{
@@ -464,7 +528,7 @@ const Dashboard = () => {
                   color: "#000b",
                 }}
               >
-                <BiMaleFemale />
+                <BiMaleFemale color={toggleTheme ? "fff" : "000"} />
               </p>
             </div>
           </Stack>

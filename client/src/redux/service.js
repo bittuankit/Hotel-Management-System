@@ -38,6 +38,10 @@ export const serviceApi = createApi({
       }),
       providesTags: ["customer"],
     }),
+    dashboardApi: builder.query({
+      query: () => "stats/details",
+      method: "GET",
+    }),
   }),
 });
 
@@ -47,4 +51,5 @@ export const {
   useAddEmpMutation,
   useAllCustomerQuery,
   useSearchCustomerQuery,
+  useDashboardApiQuery,
 } = serviceApi;
