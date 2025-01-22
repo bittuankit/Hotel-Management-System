@@ -1,10 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { Stack, Avatar, Typography, Button } from "@mui/material";
 import { MdDelete } from "react-icons/md";
 import { useAllCustomerQuery } from "../redux/service";
 
-const FetchCustomer = () => {
-  const { data } = useAllCustomerQuery();
+const FetchCustomer = ({ query }) => {
+  const { data, isSuccess } = useAllCustomerQuery();
+
+  const filteredCustomer = useMemo(() => {
+    return data?.customers.filter(
+      (customer) =>
+        customer.cusName.toLowerCase().includes(query) ||
+        customer.cusEmail.toLowerCase().includes(query) ||
+        customer.cusRoom.includes(query)
+    );
+  }, [query, isSuccess]);
 
   const handleDelete = () => {};
 
@@ -20,7 +29,7 @@ const FetchCustomer = () => {
             scrollbarWidth: "none",
           }}
         >
-          {data?.customers.map((e, idx) => (
+          {filteredCustomer?.map((e, idx) => (
             <Stack
               key={idx}
               flexDirection={"row"}

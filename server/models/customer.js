@@ -44,6 +44,13 @@ const customerSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    isCheckedOut: {
+      type: Boolean,
+      default: false,
+    },
+    checkOutDate: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

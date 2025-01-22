@@ -14,8 +14,12 @@ const Employee = () => {
 
   return (
     <div>
-      <Stack flexDirection={"row"}>
-        <aside>
+      <Stack flexDirection={"row"} width={"100vw"}>
+        <aside
+          style={{
+            minWidth: "20%",
+          }}
+        >
           <Sidebar />
         </aside>
         <main>
@@ -30,6 +34,7 @@ const Employee = () => {
             gap={"2rem"}
             justifyContent={"space-between"}
             borderRadius={".5rem"}
+            minWidth={"80%"}
           >
             <h1>Add Employee</h1>
             <IoAddCircle

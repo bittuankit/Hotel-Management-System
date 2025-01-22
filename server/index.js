@@ -11,7 +11,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["POST"],
+    methods: ["GET", "POST", "PUT"],
     credentials: true,
   })
 );

@@ -18,7 +18,11 @@ const Dashboard = () => {
   return (
     <div>
       <Stack width={"100vw"} flexDirection={"row"}>
-        <aside>
+        <aside
+          style={{
+            minWidth: "20%",
+          }}
+        >
           <Sidebar />
         </aside>
         <main

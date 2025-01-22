@@ -35,7 +35,11 @@ const Rooms = () => {
   return (
     <div>
       <Stack flexDirection={"row"} width={"100vw"} maxHeight={"100vh"}>
-        <aside>
+        <aside
+          style={{
+            minWidth: "20%",
+          }}
+        >
           <Sidebar />
         </aside>
         <Stack flexDirection={"column"} mx={"auto"} my={"0"}>

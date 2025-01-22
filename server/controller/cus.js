@@ -35,9 +35,13 @@ export const addCus = async (req, res) => {
 };
 
 export const getCus = async (req, res) => {
-  const customers = await Customer.find({}).sort({ createdAt: -1 });
+  try {
+    const customers = await Customer.find({}).sort({ createdAt: -1 });
 
-  res.json({ success: true, customers });
+    res.json({ success: true, customers });
+  } catch (error) {
+    console.error("Error fetching all customers:", error);
+  }
 };
 
 export const searchCus = async (req, res) => {
@@ -59,14 +63,29 @@ export const searchCus = async (req, res) => {
   }
 };
 
-export const deleteCus = async (req, res) => {
+export const getActiveCustomers = async (req, res) => {
   try {
-    const { id } = req.params;
-    const customer = await Customer.findById(id);
-
-    if (!customer)
-      return res.json({ success: false, message: "Customer doesn't exist." });
+    const activeCustomers = await Customer.find({ isCheckedOut: false });
+    res.json({ success: true, activeCustomers });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching active customers:", error);
+  }
+};
+
+export const checkoutCustomer = async (req, res) => {
+  try {
+    const { customerId } = req.body;
+    console.log(customerId);
+    await Customer.findByIdAndUpdate(
+      customerId,
+      {
+        isCheckedOut: true,
+        checkOutDate: new Date(),
+      },
+      { new: true } // Return the updated document
+    );
+    res.json({ success: true, message: "Customer checked out successfully." });
+  } catch (error) {
+    console.error("Error during checkout:", error);
   }
 };

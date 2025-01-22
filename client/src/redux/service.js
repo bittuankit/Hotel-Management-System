@@ -42,6 +42,21 @@ export const serviceApi = createApi({
       query: () => "stats/details",
       method: "GET",
     }),
+    updateCustomer: builder.mutation({
+      query: (data) => ({
+        url: "customer/updateCustomer",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["customer"],
+    }),
+    activeCustomer: builder.query({
+      query: () => ({
+        url: "customer/activeCustomer",
+        method: "GET",
+      }),
+      providesTags: ["customer"],
+    }),
   }),
 });
 
@@ -52,4 +67,6 @@ export const {
   useAllCustomerQuery,
   useSearchCustomerQuery,
   useDashboardApiQuery,
+  useUpdateCustomerMutation,
+  useActiveCustomerQuery,
 } = serviceApi;

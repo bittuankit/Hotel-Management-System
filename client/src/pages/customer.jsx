@@ -22,15 +22,19 @@ const AddCustomer = () => {
 
   return (
     <div>
-      <Stack flexDirection={"row"}>
-        <aside>
+      <Stack flexDirection={"row"} width={"100vw"}>
+        <aside
+          style={{
+            minWidth: "20%",
+          }}
+        >
           <Sidebar />
         </aside>
         <div
           style={{
             margin: "0 auto",
             maxHeight: "100vh",
-            minWidth: "720px",
+            minWidth: "80%",
             overflow: "hidden",
           }}
         >
@@ -63,7 +67,8 @@ const AddCustomer = () => {
               style={{
                 marginBottom: ".2rem",
                 display: "flex",
-                minWidth: "100%",
+                minWidth: "70%",
+                margin: "0 auto",
               }}
               onSubmit={handleSearchSubmit}
             >
@@ -114,10 +119,11 @@ const AddCustomer = () => {
           </Stack>
           <div
             style={{
-              width: "100%",
+              width: "70%",
               maxHeight: "93vh",
               overflowY: "auto",
               scrollbarWidth: "none",
+              margin: "0 auto",
             }}
           >
             <AllCustomer query={customerQuery} />
