@@ -1,34 +1,39 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Stack, Avatar, Typography, Button } from "@mui/material";
 import { MdDelete } from "react-icons/md";
 import {
   useActiveCustomerQuery,
-  useAllCustomerQuery,
   useUpdateCustomerMutation,
 } from "../redux/service";
 import toast from "react-hot-toast";
 
 const CheckOutCustomer = ({ query }) => {
-  const [
-    updateCustomer,
-    { isSuccess: updateCustomerIsSuccess, data: updateCustomerData },
-  ] = useUpdateCustomerMutation();
-
   const { data, isSuccess } = useActiveCustomerQuery();
+  const [updateCustomer] = useUpdateCustomerMutation();
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    if (isSuccess && data?.activeCustomers) {
+      setCustomers(data.activeCustomers);
+    }
+  }, [isSuccess, data]);
 
   const filteredCustomer = useMemo(() => {
-    return data?.activeCustomers.filter(
+    return customers.filter(
       (customer) =>
         customer.cusName.toLowerCase().includes(query) ||
         customer.cusEmail.toLowerCase().includes(query) ||
         customer.cusRoom.includes(query)
     );
-  }, [query, isSuccess]);
+  }, [query, customers]);
 
   const handleDelete = async (customerId) => {
-    await updateCustomer({ customerId });
-    if (updateCustomerIsSuccess) {
-      toast.success(updateCustomerData.message);
+    try {
+      const response = await updateCustomer({ customerId }).unwrap();
+      toast.success(response.message);
+      setCustomers((prev) => prev.filter((c) => c._id !== customerId));
+    } catch (error) {
+      toast.error("Failed to delete customer.");
     }
   };
 
@@ -45,10 +50,10 @@ const CheckOutCustomer = ({ query }) => {
             scrollbarWidth: "none",
           }}
         >
-          {filteredCustomer ? (
-            filteredCustomer?.map((e, idx) => (
+          {filteredCustomer.length > 0 ? (
+            filteredCustomer.map((e, idx) => (
               <Stack
-                key={idx}
+                key={e._id}
                 flexDirection={"row"}
                 justifyContent={"space-between"}
                 gap={"2rem"}
@@ -93,14 +98,7 @@ const CheckOutCustomer = ({ query }) => {
                 <Button
                   variant="contained"
                   color="error"
-                  endIcon={
-                    <MdDelete
-                      style={{
-                        position: "relative",
-                        transform: "translateY(-6%)",
-                      }}
-                    />
-                  }
+                  endIcon={<MdDelete />}
                   sx={{
                     display: "flex",
                     alignItems: "center",

@@ -17,20 +17,25 @@ export const serviceApi = createApi({
       }),
       invalidatesTags: ["customer"],
     }),
+
     checkEmp: builder.mutation({
       query: (data) => ({
         url: "emp/login",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["employee"],
     }),
+
     addEmp: builder.mutation({
       query: (data) => ({
         url: "emp/add",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["employee"],
     }),
+
     allCustomer: builder.query({
       query: () => ({
         url: "customer/getCus",
@@ -38,10 +43,14 @@ export const serviceApi = createApi({
       }),
       providesTags: ["customer"],
     }),
+
     dashboardApi: builder.query({
-      query: () => "stats/details",
-      method: "GET",
+      query: () => ({
+        url: "stats/details",
+        method: "GET",
+      }),
     }),
+
     updateCustomer: builder.mutation({
       query: (data) => ({
         url: "customer/updateCustomer",
@@ -49,7 +58,34 @@ export const serviceApi = createApi({
         body: data,
       }),
       invalidatesTags: ["customer"],
+
+      async onQueryStarted(
+        { customerId, ...updatedData },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          serviceApi.util.updateQueryData(
+            "activeCustomer",
+            undefined,
+            (draft) => {
+              const customer = draft?.activeCustomers?.find(
+                (c) => c._id === customerId
+              );
+              if (customer) {
+                Object.assign(customer, updatedData);
+              }
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
+
     activeCustomer: builder.query({
       query: () => ({
         url: "customer/activeCustomer",
@@ -65,7 +101,6 @@ export const {
   useCheckEmpMutation,
   useAddEmpMutation,
   useAllCustomerQuery,
-  useSearchCustomerQuery,
   useDashboardApiQuery,
   useUpdateCustomerMutation,
   useActiveCustomerQuery,
