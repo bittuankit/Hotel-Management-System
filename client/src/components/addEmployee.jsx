@@ -1,13 +1,17 @@
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Box, Stack, useMediaQuery } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployeeModal } from "../redux/slice";
 import { useAddEmpMutation } from "../redux/service";
+import { useNavigate } from "react-router-dom";
+import { responseToast } from "../utils/features";
 
 const AddEmployee = () => {
   const _700 = useMediaQuery("width: 700px");
+
+  const navigate = useNavigate();
 
   const [id, setId] = useState("");
   const [userId, setUserId] = useState("adhar-card");
@@ -15,6 +19,7 @@ const AddEmployee = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [username, setUsername] = useState("");
+  const [empGender, setEmpGender] = useState("");
   const [role, setRole] = useState("");
   const [address, setAddress] = useState("");
   const [join, setJoin] = useState("");
@@ -27,7 +32,10 @@ const AddEmployee = () => {
     dispatch(addEmployeeModal(false));
   };
 
-  const [empData, { isSuccess, data }] = useAddEmpMutation();
+  const male = `https://avatar.iran.liara.run/public/boy?username=${firstname}`;
+  const female = `https://avatar.iran.liara.run/public/girl?username=${firstname}`;
+
+  const [addEmp] = useAddEmpMutation();
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -35,23 +43,21 @@ const AddEmployee = () => {
       id,
       userId,
       userIdNumber,
+      empProfile: empGender === "male" ? male : female,
       firstname,
       lastname,
       username,
+      empGender,
       role,
       address,
       join,
       amount,
     };
 
-    await empData(employeeData);
+    const res = await addEmp(employeeData);
+    responseToast(res, navigate, "/employee");
+    dispatch(addEmployeeModal(false));
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
-    }
-  }, [isSuccess]);
 
   return (
     <div>
@@ -220,6 +226,39 @@ const AddEmployee = () => {
                     margin: ".5rem 0",
                   }}
                 />
+              </Stack>
+              <Stack
+                flexDirection={"row"}
+                alignItems={"center"}
+                width={"100%"}
+                margin={"1rem 0"}
+              >
+                <h1>Gender:</h1>
+                <Stack
+                  width={"100%"}
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent={"flex-end"}
+                  gap={"0.5rem"}
+                >
+                  <input
+                    required
+                    type="radio"
+                    name="gender"
+                    id="male"
+                    value={"male"}
+                    onChange={(e) => setEmpGender(e.target.value)}
+                  />
+                  <label htmlFor="male">Male</label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    id="female"
+                    value={"female"}
+                    onChange={(e) => setEmpGender(e.target.value)}
+                  />
+                  <label htmlFor="female">Female</label>
+                </Stack>
               </Stack>
               <Stack
                 flexDirection={"row"}

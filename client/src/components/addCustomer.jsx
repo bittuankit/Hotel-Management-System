@@ -11,7 +11,6 @@ import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomerModal, handleRoomStatus } from "../redux/slice";
 import { useAddCustomerMutation } from "../redux/service";
-import toast from "react-hot-toast";
 import { responseToast } from "../utils/features";
 import { useNavigate } from "react-router-dom";
 

@@ -14,6 +14,10 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    empProfile: {
+      type: String,
+      required: true,
+    },
     firstname: {
       type: String,
       required: true,
@@ -28,6 +32,10 @@ const schema = new mongoose.Schema(
       unique: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    empGender: {
       type: String,
       required: true,
     },

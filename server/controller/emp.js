@@ -35,9 +35,11 @@ export const addEmp = async (req, res, next) => {
       id,
       userId,
       userIdNumber,
+      empProfile,
       firstname,
       lastname,
       username,
+      empGender,
       role,
       address,
       join,
@@ -55,10 +57,12 @@ export const addEmp = async (req, res, next) => {
       id,
       userId,
       userIdNumber,
+      empProfile,
       firstname,
       lastname,
       username,
       password: hashPassword,
+      empGender,
       role,
       address,
       join,
@@ -68,5 +72,15 @@ export const addEmp = async (req, res, next) => {
     res.json({ success: true, message: "Employee Added." });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getEmp = async (req, res) => {
+  try {
+    const employees = await Emp.find({}).sort({ createdAt: -1 });
+
+    res.json({ success: true, employees });
+  } catch (error) {
+    console.error("Error fetching all employees:", error);
   }
 };

@@ -36,6 +36,14 @@ export const serviceApi = createApi({
       invalidatesTags: ["employee"],
     }),
 
+    allEmployee: builder.query({
+      query: () => ({
+        url: "emp/getEmp",
+        method: "GET",
+      }),
+      providesTags: ["employee"],
+    }),
+
     allCustomer: builder.query({
       query: () => ({
         url: "customer/getCus",
@@ -101,6 +109,7 @@ export const {
   useCheckEmpMutation,
   useAddEmpMutation,
   useAllCustomerQuery,
+  useAllEmployeeQuery,
   useDashboardApiQuery,
   useUpdateCustomerMutation,
   useActiveCustomerQuery,
