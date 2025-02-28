@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Loading from "./components/loading";
 import { useSelector } from "react-redux";
@@ -17,43 +17,42 @@ const Employee = lazy(() => import("./pages/worker"));
 const App = () => {
   const { toggleTheme, isUser } = useSelector((state) => state.service);
 
+  const themeStyles = useMemo(
+    () => ({
+      background: toggleTheme ? "#000" : "#fff",
+      color: toggleTheme ? "#fff" : "#000",
+    }),
+    [toggleTheme]
+  );
+
   return (
-    <div
-      style={
-        toggleTheme
-          ? { background: "#000", color: "#fff" }
-          : { background: "#fff", color: "#000" }
-      }
-    >
+    <div style={themeStyles}>
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
-            {isUser?.role === "admin" ? (
-              <>
-                <Route element={<Auth user={isUser} />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/customer" element={<Customer />} />
-                  <Route path="/rooms" element={<Rooms />} />
-                  <Route path="/department" element={<Department />} />
-                  <Route path="/checkout" element={<CheckOut />} />
-                  <Route path="/employee" element={<Employee />} />
-                </Route>
-                <Route element={<Auth user={!isUser} redirect="/dashboard" />}>
-                  <Route path="/" element={<Login />} />
-                </Route>
-              </>
-            ) : (
-              <>
-                <Route element={<Auth user={isUser} />}>
-                  <Route path="/customer" element={<Customer />} />
-                  <Route path="/rooms" element={<Rooms />} />
-                  <Route path="/checkout" element={<CheckOut />} />
-                </Route>
-                <Route element={<Auth user={!isUser} redirect="/customer" />}>
-                  <Route path="/" element={<Login />} />
-                </Route>
-              </>
+            <Route element={<Auth user={!isUser} redirect="/dashboard" />}>
+              <Route path="/" element={<Login />} />
+            </Route>
+
+            {isUser?.role === "admin" && (
+              <Route element={<Auth user={isUser} />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/customer" element={<Customer />} />
+                <Route path="/rooms" element={<Rooms />} />
+                <Route path="/department" element={<Department />} />
+                <Route path="/checkout" element={<CheckOut />} />
+                <Route path="/employee" element={<Employee />} />
+              </Route>
             )}
+
+            {isUser?.role !== "admin" && (
+              <Route element={<Auth user={isUser} />}>
+                <Route path="/customer" element={<Customer />} />
+                <Route path="/rooms" element={<Rooms />} />
+                <Route path="/checkout" element={<CheckOut />} />
+              </Route>
+            )}
+
             <Route path="*" element={<Error />} />
           </Routes>
         </Suspense>

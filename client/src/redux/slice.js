@@ -6,7 +6,7 @@ export const serviceSlice = createSlice({
     openAddCustomer: false,
     openAddEmployee: false,
     toggleTheme: false,
-    isUser: null,
+    isUser: JSON.parse(sessionStorage.getItem("user")) || null,
     roomStatus: true,
     allCustomer: [],
   },
@@ -21,11 +21,8 @@ export const serviceSlice = createSlice({
       state.toggleTheme = !state.toggleTheme;
     },
     handleIsUser: (state, action) => {
-      if (state) {
-        state.isUser = action.payload;
-      } else {
-        state.isUser = null;
-      }
+      state.isUser = action.payload;
+      sessionStorage.setItem("user", JSON.stringify(action.payload));
     },
     handleRoomStatus: (state) => {
       state.roomStatus = !state.roomStatus;
