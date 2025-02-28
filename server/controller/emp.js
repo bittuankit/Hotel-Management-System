@@ -41,6 +41,7 @@ export const addEmp = async (req, res, next) => {
       username,
       empGender,
       role,
+      department,
       address,
       join,
       amount,
@@ -64,6 +65,7 @@ export const addEmp = async (req, res, next) => {
       password: hashPassword,
       empGender,
       role,
+      department,
       address,
       join,
       amount,
@@ -71,6 +73,7 @@ export const addEmp = async (req, res, next) => {
 
     res.json({ success: true, message: "Employee Added." });
   } catch (error) {
+    res.status(500).json({ message: "Error in creating employee" });
     console.log(error);
   }
 };
@@ -81,6 +84,7 @@ export const getEmp = async (req, res) => {
 
     res.json({ success: true, employees });
   } catch (error) {
-    console.error("Error fetching all employees:", error);
+    res.status(500).json({ message: "Error fetching all employees" });
+    console.log(error);
   }
 };

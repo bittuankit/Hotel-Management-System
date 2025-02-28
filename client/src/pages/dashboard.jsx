@@ -29,8 +29,6 @@ const Dashboard = () => {
           style={{
             width: "80%",
             maxHeight: "100vh",
-            overflowY: "auto",
-            scrollbarWidth: "none",
           }}
         >
           <Stack

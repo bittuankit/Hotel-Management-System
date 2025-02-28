@@ -44,6 +44,10 @@ const schema = new mongoose.Schema(
       required: true,
       enum: ["admin", "emp"],
     },
+    department: {
+      type: String,
+      required: true,
+    },
     address: {
       type: String,
       required: true,

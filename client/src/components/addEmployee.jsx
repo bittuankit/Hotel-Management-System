@@ -21,6 +21,7 @@ const AddEmployee = () => {
   const [username, setUsername] = useState("");
   const [empGender, setEmpGender] = useState("");
   const [role, setRole] = useState("");
+  const [department, setDepartment] = useState("adhar-card");
   const [address, setAddress] = useState("");
   const [join, setJoin] = useState("");
   const [amount, setAmount] = useState("");
@@ -49,6 +50,7 @@ const AddEmployee = () => {
       username,
       empGender,
       role,
+      department,
       address,
       join,
       amount,
@@ -266,7 +268,7 @@ const AddEmployee = () => {
                 width={"100%"}
                 margin={".3rem 0"}
               >
-                <h1>Role</h1>
+                <h1>Role:</h1>
                 <Stack
                   width={"100%"}
                   flexDirection={"row"}
@@ -291,6 +293,31 @@ const AddEmployee = () => {
                   />
                   <label htmlFor="emp">Employee</label>
                 </Stack>
+              </Stack>
+              <Stack
+                flexDirection={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
+                width={"100%"}
+                margin={".5rem 0"}
+              >
+                <h1>Department:</h1>
+                <select
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
+                >
+                  <option value={"reception"}>Reception</option>
+                  <option value={"housekeeping"}>Housekeeping</option>
+                  <option value={"food_&_beverage"}>Food & Beverage</option>
+                  <option value={"kitchen"}>Kitchen</option>
+                  <option value={"maintenance"}>Maintenance</option>
+                  <option value={"sales_&_marketing"}>Sales & Marketing</option>
+                  <option value={"human-resources"}>Human Resources</option>
+                  <option value={"accounting"}> Accounting</option>
+                  <option value={"information_technology"}>
+                    Information Technology
+                  </option>
+                </select>
               </Stack>
               <Stack
                 flexDirection={"row"}
@@ -322,7 +349,7 @@ const AddEmployee = () => {
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <h1>Join Date/Time</h1>
+                <h1>Join Date/Time:</h1>
                 <input
                   type="datetime-local"
                   name="checkin"
