@@ -56,7 +56,7 @@ const AllEmployee = ({ query }) => {
                       height: "200px",
                     }}
                     alt={e.firstname}
-                    src={e.cusProfile}
+                    src={e.empProfile}
                   />
                 </div>
                 <Stack
@@ -81,6 +81,12 @@ const AllEmployee = ({ query }) => {
                     sx={{ fontWeight: "600", textTransform: "capitalize" }}
                   >
                     Role: {e.role}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "600", textTransform: "capitalize" }}
+                  >
+                    Department: {e.department}
                   </Typography>
                   <Typography
                     variant="h6"

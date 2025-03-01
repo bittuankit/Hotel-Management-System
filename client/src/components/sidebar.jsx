@@ -95,18 +95,6 @@ const Sidebar = () => {
           </Link>
           <Link
             style={{
-              background: location.pathname.includes("/department")
-                ? bgColor
-                : "none",
-              color: location.pathname.includes("/department") ? color : "none",
-            }}
-            className="link"
-            to={"/department"}
-          >
-            Department
-          </Link>
-          <Link
-            style={{
               background: location.pathname.includes("/checkout")
                 ? bgColor
                 : "none",
@@ -116,6 +104,18 @@ const Sidebar = () => {
             to={"/checkout"}
           >
             CheckOut
+          </Link>
+          <Link
+            style={{
+              background: location.pathname.includes("/department")
+                ? bgColor
+                : "none",
+              color: location.pathname.includes("/department") ? color : "none",
+            }}
+            className="link"
+            to={"/department"}
+          >
+            Department
           </Link>
           <Link
             style={{

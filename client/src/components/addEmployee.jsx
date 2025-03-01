@@ -21,7 +21,7 @@ const AddEmployee = () => {
   const [username, setUsername] = useState("");
   const [empGender, setEmpGender] = useState("");
   const [role, setRole] = useState("");
-  const [department, setDepartment] = useState("adhar-card");
+  const [department, setDepartment] = useState("admin");
   const [address, setAddress] = useState("");
   const [join, setJoin] = useState("");
   const [amount, setAmount] = useState("");
@@ -306,6 +306,7 @@ const AddEmployee = () => {
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
                 >
+                  <option value={"admin"}>Admin</option>
                   <option value={"reception"}>Reception</option>
                   <option value={"housekeeping"}>Housekeeping</option>
                   <option value={"food_&_beverage"}>Food & Beverage</option>

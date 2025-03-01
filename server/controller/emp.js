@@ -80,7 +80,7 @@ export const addEmp = async (req, res, next) => {
 
 export const getEmp = async (req, res) => {
   try {
-    const employees = await Emp.find({}).sort({ createdAt: -1 });
+    const employees = await Emp.find({ role: "emp" }).sort({ createdAt: -1 });
 
     res.json({ success: true, employees });
   } catch (error) {
