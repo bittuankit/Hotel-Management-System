@@ -309,13 +309,13 @@ const AddEmployee = () => {
                   <option value={"admin"}>Admin</option>
                   <option value={"reception"}>Reception</option>
                   <option value={"housekeeping"}>Housekeeping</option>
-                  <option value={"food_&_beverage"}>Food & Beverage</option>
+                  <option value={"food-&-beverage"}>Food & Beverage</option>
                   <option value={"kitchen"}>Kitchen</option>
                   <option value={"maintenance"}>Maintenance</option>
-                  <option value={"sales_&_marketing"}>Sales & Marketing</option>
+                  <option value={"sales-&-marketing"}>Sales & Marketing</option>
                   <option value={"human-resources"}>Human Resources</option>
                   <option value={"accounting"}> Accounting</option>
-                  <option value={"information_technology"}>
+                  <option value={"information-technology"}>
                     Information Technology
                   </option>
                 </select>
